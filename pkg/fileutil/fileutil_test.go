@@ -25,3 +25,23 @@ func TestGetAllFileNames(t *testing.T) {
 		})
 	}
 }
+
+func TestGetWordCount(t *testing.T) {
+	tests := [] struct {
+			input string
+			want int
+		}{
+			{input: "./testdata/example.txt", want: 4}, 
+			{input: "./testdata/sample.txt", want: 0}, 
+			{input: "./testdata/missing.txt", want: 0}, // on error
+		}
+	
+	for i, tc := range tests {
+		t.Run(fmt.Sprintf("Test_%d", i), func(t *testing.T) {
+			got, _ := GetWordCount(tc.input)
+			if  got != tc.want {
+				t.Fatalf("got %v; want %v", got, tc.want)
+			}
+		})
+	}
+}

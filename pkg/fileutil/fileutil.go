@@ -3,6 +3,7 @@ package fileutil
 import (
 	"log"
 	"os"
+	"strings"
 )
 
 func CreateDir(path string) {
@@ -25,4 +26,13 @@ func GetAllFileNames(path string) ([]string, error) {
 		}
 	}
 	return returnVal, nil
+}
+
+func GetWordCount(path string) (int, error) {
+	raw, err := os.ReadFile(path)
+	if err != nil {
+		return 0, err
+	}
+	words := strings.Fields(string(raw)) 
+	return len(words), nil
 }
