@@ -205,6 +205,51 @@ func addHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(name+" uploaded successfully"))
 }
 
+// 200- update successful
+// 400 - missing/incorrect params in request.
+// 500 - server error 
+func updateHandler(w http.ResponseWriter, r *http.Request) {
+	log.Print("[INFO] Invoked /add by ", r.RemoteAddr)
+	if r.Method != "Put" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+    // left shift 32 << 20 which results in 32*2^20 = 33554432
+	// x << y, results in x*2^y
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		clientError(w, err)
+		return 
+	}
+	name := r.Form.Get("name")
+	// Retrieve the file from form data
+	f, _, err := r.FormFile("file")
+	if err != nil {
+		clientError(w, err)
+		return  
+	}
+	defer f.Close()
+
+	fullPath := serverDir + "/" + name
+	file, err := os.OpenFile(fullPath, os.O_WRONLY|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		serverError(w, err)
+		return  
+	}
+	defer file.Close()
+	// Copy the file to the destination path
+	_, err = io.Copy(file, f)
+	if err != nil {
+		serverError(w, err)
+		return 
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte(name+" updated successfully"))
+}
+
 func Start(port string, dir string){
 	serverDir = dir
 
@@ -217,6 +262,7 @@ func Start(port string, dir string){
 	http.HandleFunc("/wc", wcHandler)	// return number of words from all files
 	http.HandleFunc("/freq-words", freqWordsHandler)	// return number of occurrences of words from all files
 	http.HandleFunc("/add", addHandler)	// upload a file
+	http.HandleFunc("/update", updateHandler)	// update a file
 
 	// start server
 	log.Print("[INFO] Server listening on ", port)
