@@ -1,0 +1,8 @@
+cmd/server/server
+cmd/client/store
+store
+server
+cmd/server/server.exe
+cmd/client/store.exe
+store.exe
+server.exe
