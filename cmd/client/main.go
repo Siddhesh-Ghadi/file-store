@@ -27,6 +27,11 @@ func main() {
 		for _, f := range files{
 			client.Update(f)
 		}	
+	case "rm":
+		files := os.Args[2:]
+		for _, f := range files{
+			client.Rm(f)
+		}	
 	default:
 		client.Help()
 	}
