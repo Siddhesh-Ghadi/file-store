@@ -53,6 +53,8 @@ func main() {
 			}
 		}
 		client.FreqWords(limit, order)
+	case "help":
+		client.Help()
 	default:
 		client.Help()
 	}

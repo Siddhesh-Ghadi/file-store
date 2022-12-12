@@ -22,6 +22,11 @@ func handleError(err error) {
 
 func Help() {
 	fmt.Println("Help")
+	fmt.Printf("ls\t\t\tList all files from store.\n")
+	fmt.Printf("add file1 file2...\tAdd files to store store.\n")
+	fmt.Printf("update file1 file2...\tUpdate files in store store.\n")
+	fmt.Printf("rm file1 file2...\tRemove files from store store.\n")
+	fmt.Printf("freq-words --limit 10|-n 10 --order dsc|asc\tList count of each word. limit & order are optional flags.\n")
 }
 
 func Ls() {
