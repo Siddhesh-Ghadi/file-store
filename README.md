@@ -10,6 +10,8 @@ Build the server using below instructions or use the [container image](https://h
 docker run --name file-store-server -p 8080:8080 sghadi1203/file-store:latest
 ```
 
+You can also use [k8s deployment](./k8s-deploy.yaml) file to run the server.
+
 ### Client
 
 Build the client using below instructions or use the binary from [github release page](https://github.com/Siddhesh-Ghadi/file-store/releases) of this repo.
