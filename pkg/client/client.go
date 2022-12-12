@@ -118,6 +118,27 @@ func Rm(path string){
 	}
 }
 
+func FreqWords(limit string, order string) {
+	resp, err := http.Get(serverAddr + "/freq-words?limit="+limit+"&order="+order)
+	if err != nil {
+		handleError(err)
+	}
+	//We Read the response body on the line below.
+   	body, err := ioutil.ReadAll(resp.Body)
+   	if err != nil {
+		handleError(err)
+   	}
+	//Convert the body to type string
+	var b model.FreqResponse
+	e := json.Unmarshal(body, &b)
+	if e != nil {
+		handleError(err)
+	}
+	for _, v := range b.Freqs{
+		fmt.Println(v.Count,v.Word)
+	}
+}
+
 // https://matt.aimonetti.net/posts/2013-07-golang-multipart-file-upload-example/
 func newfileUploadRequest(method string,uri string, params map[string]string, paramName, path string) (*http.Request, error) {
 	body := &bytes.Buffer{}
