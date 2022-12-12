@@ -150,7 +150,7 @@ func freqWordsHandler(w http.ResponseWriter, r *http.Request) {
 // 500 - server error 
 func addHandler(w http.ResponseWriter, r *http.Request) {
 	log.Print("[INFO] Invoked /add by ", r.RemoteAddr)
-	if r.Method != "Post" {
+	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -210,7 +210,7 @@ func addHandler(w http.ResponseWriter, r *http.Request) {
 // 500 - server error 
 func updateHandler(w http.ResponseWriter, r *http.Request) {
 	log.Print("[INFO] Invoked /update by ", r.RemoteAddr)
-	if r.Method != "Put" {
+	if r.Method != "PUT" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
@@ -255,7 +255,7 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
 // 500 - server error 
 func rmHandler(w http.ResponseWriter, r *http.Request) {
 	log.Print("[INFO] Invoked /rm by ", r.RemoteAddr)
-	if r.Method != "Delete" {
+	if r.Method != "DELETE" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
