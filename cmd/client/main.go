@@ -2,12 +2,21 @@ package main
 
 import (
   "os"
+  "fmt"
   "github.com/Siddhesh-Ghadi/file-store/pkg/client"
 )
 
 
 
 func main() {
+
+	// TODO: use config file
+	if _, isSet := os.LookupEnv("FILE_STORE_SERVER"); !isSet {
+		fmt.Println("Please set FILE_STORE_SERVER env var to point to server address")
+		fmt.Println(`Example: $ export FILE_STORE_SERVER="localhost:8080"`)
+		os.Exit(1)
+	}
+	client.ServerAddr = os.Getenv("FILE_STORE_SERVER")
 
 	if len(os.Args) < 2{
 		client.Help()

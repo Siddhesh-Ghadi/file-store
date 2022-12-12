@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 )
 
-var serverAddr = "http://localhost:8080"
+var ServerAddr = "http://localhost:8080"
 
 func handleError(err error) {
 	fmt.Println(err)
@@ -25,7 +25,7 @@ func Help() {
 }
 
 func Ls() {
-	resp, err := http.Get(serverAddr + "/ls")
+	resp, err := http.Get(ServerAddr + "/ls")
 	if err != nil {
 		handleError(err)
 	}
@@ -50,7 +50,7 @@ func Add(path string) {
 	extraParams := map[string]string{
 		"name": name,
 	}
-	request, err := newfileUploadRequest("POST", serverAddr + "/add", extraParams, "file", path)
+	request, err := newfileUploadRequest("POST", ServerAddr + "/add", extraParams, "file", path)
 	if err != nil {
 		handleError(err)
 	}
@@ -74,7 +74,7 @@ func Update(path string) {
 	extraParams := map[string]string{
 		"name": name,
 	}
-	request, err := newfileUploadRequest("PUT", serverAddr + "/update", extraParams, "file", path)
+	request, err := newfileUploadRequest("PUT", ServerAddr + "/update", extraParams, "file", path)
 	if err != nil {
 		handleError(err)
 	}
@@ -98,7 +98,7 @@ func Rm(path string){
 	extraParams := map[string]string{
 		"name": name,
 	}
-	request, err := newfileUploadRequest("DELETE", serverAddr + "/rm", extraParams, "file", "")
+	request, err := newfileUploadRequest("DELETE", ServerAddr + "/rm", extraParams, "file", "")
 
 	if err != nil {
 		handleError(err)
@@ -119,7 +119,7 @@ func Rm(path string){
 }
 
 func FreqWords(limit string, order string) {
-	resp, err := http.Get(serverAddr + "/freq-words?limit="+limit+"&order="+order)
+	resp, err := http.Get(ServerAddr + "/freq-words?limit="+limit+"&order="+order)
 	if err != nil {
 		handleError(err)
 	}
