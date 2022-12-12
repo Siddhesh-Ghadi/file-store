@@ -45,3 +45,23 @@ func TestGetWordCount(t *testing.T) {
 		})
 	}
 }
+
+func TestGetWords(t *testing.T) {
+	tests := [] struct {
+			input string
+			want []string
+		}{
+			{input: "./testdata/example.txt", want: []string{"hello", "world", "hello,", "world"}}, 
+			{input: "./testdata/sample.txt", want: []string{}}, 
+			{input: "./testdata/missing.txt", want: nil}, // on error
+		}
+	
+	for i, tc := range tests {
+		t.Run(fmt.Sprintf("Test_%d", i), func(t *testing.T) {
+			got, _ := GetWords(tc.input)
+			if  !reflect.DeepEqual(got,tc.want) {
+				t.Fatalf("got %v; want %v", got, tc.want)
+			}
+		})
+	}
+}
