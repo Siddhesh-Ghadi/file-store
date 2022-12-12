@@ -50,6 +50,25 @@ func Ls() {
 	}
 }
 
+func Wc() {
+	resp, err := http.Get(ServerAddr + "/wc")
+	if err != nil {
+		handleError(err)
+	}
+	//We Read the response body on the line below.
+   	body, err := ioutil.ReadAll(resp.Body)
+   	if err != nil {
+		handleError(err)
+   	}
+	//Convert the body to type string
+	var b map[string]string
+	e := json.Unmarshal(body, &b)
+	if e != nil {
+		handleError(err)
+	}
+	fmt.Println(b["count"])
+}
+
 func Add(path string) {
 	_, name := filepath.Split(path)
 	extraParams := map[string]string{
