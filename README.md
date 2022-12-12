@@ -2,10 +2,9 @@
 
 ## Setup & Usage
 
-Server container image: 
-Client binary: 
-
 ### Server
+
+Build the server using below instructions or use the [container image](https://hub.docker.com/r/sghadi1203/file-store/tags) to start the server.
 
 ```bash
 docker run --name file-store-server -p 8080:8080 sghadi1203/file-store:latest
