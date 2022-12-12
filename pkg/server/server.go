@@ -209,7 +209,7 @@ func addHandler(w http.ResponseWriter, r *http.Request) {
 // 400 - missing/incorrect params in request.
 // 500 - server error 
 func updateHandler(w http.ResponseWriter, r *http.Request) {
-	log.Print("[INFO] Invoked /add by ", r.RemoteAddr)
+	log.Print("[INFO] Invoked /update by ", r.RemoteAddr)
 	if r.Method != "Put" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -250,6 +250,34 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(name+" updated successfully"))
 }
 
+// 200- remove successful
+// 400 - missing/incorrect params in request.
+// 500 - server error 
+func rmHandler(w http.ResponseWriter, r *http.Request) {
+	log.Print("[INFO] Invoked /rm by ", r.RemoteAddr)
+	if r.Method != "Delete" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
+    // left shift 32 << 20 which results in 32*2^20 = 33554432
+	// x << y, results in x*2^y
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		clientError(w, err)
+		return 
+	}
+	name := r.Form.Get("name")
+
+	fullPath := serverDir + "/" + name
+	// ignore errors
+	os.Remove(fullPath)
+
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "text/plain")
+	w.Write([]byte(name+" removed successfully"))
+}
+
 func Start(port string, dir string){
 	serverDir = dir
 
@@ -263,6 +291,7 @@ func Start(port string, dir string){
 	http.HandleFunc("/freq-words", freqWordsHandler)	// return number of occurrences of words from all files
 	http.HandleFunc("/add", addHandler)	// upload a file
 	http.HandleFunc("/update", updateHandler)	// update a file
+	http.HandleFunc("/rm", rmHandler)	// remove a file
 
 	// start server
 	log.Print("[INFO] Server listening on ", port)
