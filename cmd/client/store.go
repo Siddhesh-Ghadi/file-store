@@ -2,7 +2,7 @@ package main
 
 import (
   "os"
-  //"fmt"
+  "fmt"
   "github.com/Siddhesh-Ghadi/file-store/pkg/client"
 )
 
